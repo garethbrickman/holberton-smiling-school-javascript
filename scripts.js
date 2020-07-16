@@ -94,10 +94,68 @@ $( function () {
         );
     }
 
+    function fillLatestVideos() {
+
+        function addResponse(x) {
+
+            $("#latestvideos div.loader").remove();
+
+            for (let i = 0; i < x.length; i++) {
+
+
+                let stars = [
+                    '<img class="star m-1" src="images/star_off.png"/><img class="star m-1" src="images/star_off.png"/><img class="star m-1" src="images/star_off.png"/><img class="star m-1" src="images/star_off.png"/><img class="star m-1" src="images/star_off.png"/>',
+                    '<img class="star m-1" src="images/star_on.png"/><img class="star m-1" src="images/star_off.png"/><img class="star m-1" src="images/star_off.png"/><img class="star m-1" src="images/star_off.png"/><img class="star m-1" src="images/star_off.png"/>',
+                    '<img class="star m-1" src="images/star_on.png"/><img class="star m-1" src="images/star_on.png"/><img class="star m-1" src="images/star_off.png"/><img class="star m-1" src="images/star_off.png"/><img class="star m-1" src="images/star_off.png"/>',
+                    '<img class="star m-1" src="images/star_on.png"/><img class="star m-1" src="images/star_on.png"/><img class="star m-1" src="images/star_on.png"/><img class="star m-1" src="images/star_off.png"/><img class="star m-1" src="images/star_off.png"/>',
+                    '<img class="star m-1" src="images/star_on.png"/><img class="star m-1" src="images/star_on.png"/><img class="star m-1" src="images/star_on.png"/><img class="star m-1" src="images/star_on.png"/><img class="star m-1" src="images/star_off.png"/>',
+                    '<img class="star m-1" src="images/star_on.png"/><img class="star m-1" src="images/star_on.png"/><img class="star m-1" src="images/star_on.png"/><img class="star m-1" src="images/star_on.png"/><img class="star m-1" src="images/star_on.png"/>'
+                ]
+
+
+
+                let start = '<div class="col-sm m-2"><div class="video-card card text-left"><img class="card-img-top" src="'
+                let image = x[i].thumb_url
+                let part1 = '" alt="Card image"><div class="card-body text-black"><h3 class="card-title font-weight-bold text-black">'
+                let title = x[i].title
+                let part2 = '</h3><p class="card-text text-secondary">'
+                let text = x[i]["sub-title"]
+                let part3 = '</p><div class="d-flex justify-content-start"><img class="circle-thumb-small rounded-circle" src="'
+                let profile = x[i].author_pic_url
+                let part4 = '"/><p class="lavender m-3">'
+                let author = x[i].author
+                let part5 = '</p></div><div class="d-flex justify-content-space-between"><div class="d-flex justify-content-space-between mr-auto">'
+                let star_bar = stars[x[i].star]
+                let part6 = '</div><div><p class="lavender text-right">'
+                let time = x[i].duration
+                let part7 = '</p></div></div></div></div></div>'
+
+
+                $("#latestvideos").append(start+image+part1+title+part2+text+part3+profile+part4+author+part5+star_bar+part6+time+part7);
+
+            }
+        }
+
+        $("#latestvideos").append('<div class="loader"></div>');
+        $.ajax(
+            {
+                url: "https://smileschool-api.hbtn.info/latest-videos",
+                data: {
+                    "origin":"*",
+                },
+                crossDomain: true,
+                success: addResponse,
+            }
+        );
+}
+
     if ($("#quotes").length > 0) {
         fillQuotes();
     }
     if($("#tutorials").length > 0) {
         fillTutorials();
+    }
+    if($("#latestvideos").length > 0) {
+        fillLatestVideos();
     }
 });
